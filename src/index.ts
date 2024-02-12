@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from "express";
 
 import authRouter from "./routes/auth";
-const mongo = require("mongoose");
+import mongoose from "mongoose";
 
 //Setup DotEnv
 require("dotenv").config();
@@ -17,13 +17,10 @@ app.get("/", (req: Request, res: Response) => {
 app.use(express.json());
 
 //Connect to MongoDb
-mongo.connect(process.env.MONGO_URI, () => {
-  try {
-    console.info(`connected to mongo db 🚀`);
-  } catch (error) {
-    console.error({ err: error }, "failed to connect to db 🪳");
-  }
-});
+mongoose
+  .connect(process.env.MONGO_URI || "")
+  .then(() => console.info(`connected to mongo db 🚀`))
+  .catch((err) => console.error({ err: err }, "failed to connect to db 🪳"));
 
 app.use((_req, res, next) => {
   res.setHeader(
