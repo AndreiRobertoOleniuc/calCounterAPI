@@ -3,6 +3,8 @@ import express, { Express, Request, Response } from "express";
 import authRouter from "./routes/auth";
 import mongoose from "mongoose";
 import { configurePassport } from "./config/passport";
+import session from "express-session";
+import passport from "passport";
 
 //Setup DotEnv
 require("dotenv").config();
@@ -12,11 +14,16 @@ const app: Express = express();
 
 const port = 4000;
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello, World!");
-});
-
 app.use(express.json());
+app.use(
+  session({
+    secret: process.env.ACCESS_TOKEN_SECRET || "", // replace with your own secret
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Connect to MongoDb
 mongoose

@@ -9,11 +9,31 @@ export const configurePassport = () => {
         clientID: process.env.GOOGLE_CLIENT_ID as string,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
+        passReqToCallback: true,
       },
-      async (accessToken, refreshToken, profile, done) => {
+      async (request, accessToken, refreshToken, profile, done) => {
         // Here, you would find or create a user in your database
-        const user = await User.create({ googleId: profile.id });
-        done(null, user);
+        console.log(profile);
+        User.findOne({
+          google_id: profile.id,
+        }).then((currentUser) => {
+          if (currentUser) {
+            console.log("User is: ", currentUser);
+            done(null, currentUser);
+          } else {
+            new User({
+              google_id: profile.id,
+              first_name: profile?.name?.givenName,
+              last_name: profile?.name?.familyName,
+              email: profile?._json.email,
+              photo: profile?._json.picture,
+            })
+              .save()
+              .then((newUser) => {
+                done(null, newUser);
+              });
+          }
+        });
       }
     )
   );
