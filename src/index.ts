@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
 
 import authRouter from "./routes/auth";
+import settingsRouter from "./routes/settings";
 import mongoose from "mongoose";
 import { configurePassport } from "./config/passport";
 import session from "express-session";
@@ -50,6 +51,7 @@ app.use((_req, res, next) => {
 
 //Routes
 app.use("/auth", authRouter);
+app.use("/settings", authMiddleware, settingsRouter);
 app.get("/", authMiddleware, (req: Request, res: Response) => {
   res.send(req.user);
 });

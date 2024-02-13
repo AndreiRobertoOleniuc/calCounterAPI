@@ -1,11 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import UserModel, { IUser } from "../models/user";
+import UserModel from "../models/user";
+import User from "../types/user";
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   try {
     const authHeader = req.headers.authorization;
-    const token = authHeader?.split(" ")[1];
+    const token = authHeader;
 
     if (token == null) {
       return res.status(401).json({ message: "You are not signed in." });
@@ -17,8 +18,12 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     );
     UserModel.findOne({ _id: decodedToken._id })
       .then((user) => {
-        req.user = (user as IUser) || null;
-        next();
+        if (user !== null) {
+          req.user = (user as User) || null;
+          next();
+        } else {
+          res.status(401).json({ message: "You are not signed in." });
+        }
       })
       .catch(() => {
         res.status(401).json({ message: "You are not signed in." });
