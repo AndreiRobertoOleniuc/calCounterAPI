@@ -1,16 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import UserModel from "../models/user";
+import UserModel, { IUser } from "../models/user";
 
-interface AuthRequest extends Request {
-  user: any;
-}
-
-const authMiddleware = (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-) => {
+const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   try {
     const authHeader = req.headers.authorization;
     const token = authHeader?.split(" ")[1];
@@ -25,7 +17,7 @@ const authMiddleware = (
     );
     UserModel.findOne({ _id: decodedToken._id })
       .then((user) => {
-        req.user = user || null;
+        req.user = (user as IUser) || null;
         next();
       })
       .catch(() => {

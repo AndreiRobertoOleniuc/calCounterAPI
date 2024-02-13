@@ -13,12 +13,10 @@ export const configurePassport = () => {
       },
       async (request, accessToken, refreshToken, profile, done) => {
         // Here, you would find or create a user in your database
-        console.log(profile);
         User.findOne({
           google_id: profile.id,
         }).then((currentUser) => {
           if (currentUser) {
-            console.log("User is: ", currentUser);
             done(null, currentUser);
           } else {
             new User({

@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import { configurePassport } from "./config/passport";
 import session from "express-session";
 import passport from "passport";
+import authMiddleware from "./middleware/auth";
 
 //Setup DotEnv
 require("dotenv").config();
@@ -49,6 +50,9 @@ app.use((_req, res, next) => {
 
 //Routes
 app.use("/auth", authRouter);
+app.get("/", authMiddleware, (req: Request, res: Response) => {
+  res.send(req.user);
+});
 
 app.listen(port, () => {
   console.info(`Server is running at http://localhost:${port}`);
