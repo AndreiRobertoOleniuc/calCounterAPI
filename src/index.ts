@@ -2,13 +2,15 @@ import express, { Express, Request, Response } from "express";
 
 import authRouter from "./routes/auth";
 import mongoose from "mongoose";
+import { configurePassport } from "./config/passport";
 
 //Setup DotEnv
 require("dotenv").config();
+configurePassport();
 
 const app: Express = express();
 
-const port = 3000;
+const port = 4000;
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, World!");

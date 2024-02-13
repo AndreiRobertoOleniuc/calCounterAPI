@@ -23,14 +23,9 @@ authRouter.get(
         roles: req.user.roles,
         photo: req.user.photo,
       };
-      let jwtToken;
-      if (user.email === "bot@apiax.com") {
-        jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET || "");
-      } else {
-        jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET || "", {
-          expiresIn: "12h",
-        });
-      }
+      let jwtToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET || "", {
+        expiresIn: "12h",
+      });
       res
         .status(301)
         .redirect(`${process.env.FRONTEND_URL}/callback?token=${jwtToken}`);

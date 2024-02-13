@@ -1,7 +1,7 @@
 import mongoose, { Document } from "mongoose";
 
 // Define an interface for the User document
-interface IUser extends Document {
+export interface IUser extends Document {
   google_id: string;
   first_name: string;
   last_name: string;
