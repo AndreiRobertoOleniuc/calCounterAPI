@@ -13,5 +13,17 @@ export default interface Food {
     fat: number;
     carbohydrates: number;
     protein: number;
+    energy: number;
+    calcium: number;
+    iron: number;
+    potassium: number;
+    sodium: number;
+    sugar: number;
+    zinc: number;
+    vitaminD: number;
+    vitaminC: number;
+    vitaminB12: number;
+    vitaminA: number;
+    vitaminB6: number;
   };
 }
