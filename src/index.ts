@@ -1,12 +1,19 @@
+//General Imports
 import express, { Express, Request, Response } from "express";
-
-import authRouter from "./routes/auth";
-import settingsRouter from "./routes/settings";
 import mongoose from "mongoose";
-import { configurePassport } from "./config/passport";
 import session from "express-session";
 import passport from "passport";
+
+//Configs
+import { configurePassport } from "./config/passport";
+
+//Middlewares
 import authMiddleware from "./middleware/auth";
+
+//Routes
+import authRouter from "./routes/auth";
+import settingsRouter from "./routes/settings";
+import foodRouter from "./routes/food";
 
 //Setup DotEnv
 require("dotenv").config();
@@ -52,6 +59,7 @@ app.use((_req, res, next) => {
 //Routes
 app.use("/auth", authRouter);
 app.use("/settings", authMiddleware, settingsRouter);
+app.use("/food", authMiddleware, foodRouter);
 app.get("/", authMiddleware, (req: Request, res: Response) => {
   res.send(req.user);
 });

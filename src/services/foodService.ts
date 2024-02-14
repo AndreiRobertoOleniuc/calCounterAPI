@@ -1,8 +1,16 @@
 import axios from "axios";
 
-const searchFood = async (query: string) => {
+export const searchFood = async (query: string) => {
   const response = await axios.get(
-    `https://api.spoonacular.com/food/products/search?query=${query}&apiKey=${process.env.SPOONACULAR_API_KEY}`
+    "https://api.nal.usda.gov/fdc/v1/foods/search",
+    {
+      params: {
+        query,
+        api_key: process.env.FOOD_API_KEY_USGOV,
+        pageSize: 30,
+        dataType: "Survey (FNDDS)",
+      },
+    }
   );
   return response.data;
 };
