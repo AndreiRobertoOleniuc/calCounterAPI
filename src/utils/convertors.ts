@@ -1,3 +1,5 @@
+import USDAGOVFoodSearchResult from "../types/api/USDAFood";
+import Food from "../types/food";
 import { MessurementTypes } from "../types/messurementTypes";
 
 export const convertMessurement = (
@@ -107,6 +109,16 @@ export const convertMessurement = (
 
   return result;
 };
-export const convertToFood = (food: any) => {
 
+export const usdaGovToFood = (food: USDAGOVFoodSearchResult): Food[] => {
+  return food.foods.map((f) => {
+    return {
+      _id: f.fdcId.toString(),
+      name: f.description,
+      calories: f.foodNutrients.find((n) => n.nutrientId === 1008)?.value || 0,
+      messurement: MessurementTypes.G,
+      dosage: 100,
+      image: "-",
+    };
+  }) as Food[];
 };

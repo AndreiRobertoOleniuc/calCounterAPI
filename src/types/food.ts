@@ -9,7 +9,8 @@ export default interface Food {
   messurement: MessurementTypes;
   dosage: number;
   image?: string;
-  nurition: {
+  scanningCode?: string;
+  nurition?: {
     fat: number;
     carbohydrates: number;
     protein: number;

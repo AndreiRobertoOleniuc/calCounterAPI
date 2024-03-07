@@ -1,4 +1,5 @@
 import axios from "axios";
+import { usdaGovToFood } from "../utils/convertors";
 
 export const searchFood = async (query: string) => {
   const response = await axios.get(
@@ -12,5 +13,5 @@ export const searchFood = async (query: string) => {
       },
     }
   );
-  return response.data;
+  return usdaGovToFood(response.data);
 };

@@ -6,4 +6,4 @@ User can selects goals such as maintaining weight, gaining or loosing. They can 
 
 This Project is based on React Native with Expo. It uses both the OpenFoodFacts API as well as FoodData Central API.
 
-As a Backend Service I will be using Firebase, since it's the perfect fit for such a small application
+This is the API Service of the Application, which serves the purpose of storing user data, authenticating users and convering API requests internally
